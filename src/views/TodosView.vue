@@ -14,6 +14,11 @@ const createTodo = todo => {
     isEditing: false,
   });
 };
+
+const toggleComplete = todoIndex => {
+  todosList.value[todoIndex].isCompleted =
+    !todosList.value[todoIndex].isCompleted;
+};
 </script>
 
 <template>
@@ -21,7 +26,13 @@ const createTodo = todo => {
     <h1>Create your task</h1>
     <TodoCreator @create-todo="createTodo" />
     <ul v-if="todosList.length">
-      <TodoItem v-for="todo in todosList" :key="todo.id" :todo="todo" />
+      <TodoItem
+        v-for="(todo, index) in todosList"
+        :key="todo.id"
+        :todo="todo"
+        :index="index"
+        @toggle-complete="toggleComplete"
+      />
     </ul>
     <p v-else class="todos-msg">
       <Icon icon="noto-v1:sad-but-relieved-face" />

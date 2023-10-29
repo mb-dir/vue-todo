@@ -1,9 +1,23 @@
 <template>
   <li>
-    <input type="checkbox" :checked="todo.isCompleted" />
+    <input
+      type="checkbox"
+      :checked="todo.isCompleted"
+      @input="$emit('toggle-complete', index)"
+    />
     <div class="todo">
-      <input type="text" :value="todo.todo" />
-      <span>
+      <input
+        v-if="todo.isEditing"
+        type="text"
+        :value="todo.todo"
+        @input="$emit('update-todo', $event.target.value, index)"
+      />
+      <span
+        v-else
+        :class="{
+          'completed-todo': todo.isCompleted,
+        }"
+      >
         {{ todo.todo }}
       </span>
     </div>
@@ -42,7 +56,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  index: { type: Number, required: true },
 });
+
+defineEmits(["toggle-complete"]);
 </script>
 
 <style lang="scss" scoped>
