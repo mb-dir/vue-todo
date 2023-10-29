@@ -1,7 +1,7 @@
 <script setup>
 import TodoCreator from "../components/TodoCreator.vue";
 import TodoItem from "../components/TodoItem.vue";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { uid } from "uid";
 import { Icon } from "@iconify/vue";
 
@@ -13,6 +13,17 @@ const createTodo = todo => {
     isCompleted: false,
     isEditing: false,
   });
+};
+
+const getTodos = () => {
+  const todos = JSON.parse(localStorage.getItem("todos"));
+  if (todos) {
+    todosList.value = todos;
+  }
+};
+getTodos();
+const setTodosToLocalStorage = () => {
+  localStorage.setItem("todos", JSON.stringify(todosList.value));
 };
 
 const toggleComplete = todoIndex => {
@@ -33,6 +44,14 @@ const deleteTodo = todo => {
     todoFilter => todoFilter.id !== todo.id
   );
 };
+
+watch(
+  todosList,
+  () => {
+    setTodosToLocalStorage();
+  },
+  { deep: true }
+);
 </script>
 
 <template>
