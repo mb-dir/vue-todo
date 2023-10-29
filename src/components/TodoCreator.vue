@@ -1,14 +1,18 @@
 <template>
   <div class="input-wrap">
     <input v-model="todoContent" type="text" />
-    <button>Create</button>
+    <button @click="createTodo()">Create</button>
   </div>
 </template>
 
 <script setup>
-import { ref, watchEffect } from "vue";
-
+import { ref, defineEmits } from "vue";
+const emit = defineEmits(["create-todo"]);
 const todoContent = ref("");
+
+const createTodo = () => {
+  emit("create-todo", todoContent.value);
+};
 </script>
 
 <style lang="scss" scoped>
