@@ -19,6 +19,20 @@ const toggleComplete = todoIndex => {
   todosList.value[todoIndex].isCompleted =
     !todosList.value[todoIndex].isCompleted;
 };
+
+const editTodo = todoIndex => {
+  todosList.value[todoIndex].isEditing = !todosList.value[todoIndex].isEditing;
+};
+
+const updateTodo = (value, todoIndex) => {
+  todosList.value[todoIndex].todo = value;
+};
+
+const deleteTodo = todo => {
+  todosList.value = todosList.value.filter(
+    todoFilter => todoFilter.id !== todo.id
+  );
+};
 </script>
 
 <template>
@@ -32,6 +46,9 @@ const toggleComplete = todoIndex => {
         :todo="todo"
         :index="index"
         @toggle-complete="toggleComplete"
+        @edit-todo="editTodo"
+        @update-todo="updateTodo"
+        @delete-todo="deleteTodo"
       />
     </ul>
     <p v-else class="todos-msg">

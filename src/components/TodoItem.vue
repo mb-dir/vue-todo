@@ -3,6 +3,7 @@
     <input
       type="checkbox"
       :checked="todo.isCompleted"
+      v-show="!todo.isEditing"
       @input="$emit('toggle-complete', index)"
     />
     <div class="todo">
@@ -59,7 +60,7 @@ const props = defineProps({
   index: { type: Number, required: true },
 });
 
-defineEmits(["toggle-complete"]);
+defineEmits(["toggle-complete", "edit-todo", "update-todo", "delete-todo"]);
 </script>
 
 <style lang="scss" scoped>
