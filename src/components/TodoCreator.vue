@@ -1,17 +1,25 @@
 <template>
   <div class="input-wrap">
-    <input v-model="todoContent" type="text" />
+    <input v-model="todoState.content" type="text" />
     <button @click="createTodo()">Create</button>
   </div>
 </template>
 
 <script setup>
-import { ref, defineEmits } from "vue";
+import { defineEmits, reactive } from "vue";
 const emit = defineEmits(["create-todo"]);
-const todoContent = ref("");
+const todoState = reactive({ content: "", isInvalid: false, errMsg: "" });
 
 const createTodo = () => {
-  emit("create-todo", todoContent.value);
+  todoState.isInvalid = false;
+  todoState.errMsg = "";
+  if (todoState.content) {
+    emit("create-todo", todoState.content);
+    todoState.content = "";
+  } else {
+    todoState.isInvalid = true;
+    todoState.errMsg = "Value cannot be an empty string";
+  }
 };
 </script>
 
