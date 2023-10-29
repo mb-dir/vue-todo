@@ -1,7 +1,7 @@
 <script setup>
 import TodoCreator from "../components/TodoCreator.vue";
 import TodoItem from "../components/TodoItem.vue";
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import { uid } from "uid";
 import { Icon } from "@iconify/vue";
 
@@ -52,6 +52,10 @@ watch(
   },
   { deep: true }
 );
+
+const areAllTasksCompleted = computed(() => {
+  return todosList.value.every(todo => todo.isCompleted);
+});
 </script>
 
 <template>
@@ -73,6 +77,10 @@ watch(
     <p v-else class="todos-msg">
       <Icon icon="noto-v1:sad-but-relieved-face" />
       <span>You have no todo's to complete! Add one!</span>
+    </p>
+
+    <p v-if="areAllTasksCompleted && todosList.length" class="todos-msg">
+      You have finished your tasks
     </p>
   </main>
 </template>
