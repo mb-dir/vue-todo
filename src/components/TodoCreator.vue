@@ -1,8 +1,9 @@
 <template>
-  <div class="input-wrap">
+  <div class="input-wrap" :class="{ 'input-err': todoState.isInvalid }">
     <input v-model="todoState.content" type="text" />
     <button @click="createTodo()">Create</button>
   </div>
+  <p v-show="todoState.isInvalid" class="err-msg">{{ todoState.errMsg }}</p>
 </template>
 
 <script setup>
@@ -30,7 +31,7 @@ const createTodo = () => {
   border: 2px solid #41b080;
 
   &.input-err {
-    border-color: red;
+    border: 2px solid red;
   }
 
   &:focus-within {
